@@ -7,8 +7,19 @@ const main = async () => {
 
   console.log("Options contract deployed at : ", options.address);
 
-  const price = await options.getLatestPrice();
-  console.log("The latest Eth price in USD is :", price.toNumber());
+  const ethPrice = await options.getEthPrice();
+  console.log("The current eth price is : ", ethPrice.toNumber());
+
+  await options.writeOption(
+    800,
+    80,
+    hre.ethers.utils.parseEther("0.1"),
+    1658292186,
+    { value: hre.ethers.utils.parseEther("0.1"), gasLimit: 300000 }
+  );
+
+  let optionsArray = await options.getOptions();
+  console.log(optionsArray);
 };
 
 const runMain = async () => {
